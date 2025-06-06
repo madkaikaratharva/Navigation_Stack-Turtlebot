@@ -23,7 +23,7 @@ AStarPlanner::AStarPlanner()
     map_qos.durability(RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL);
 
     // Initialize Subscribers
-    map_sub_ = create_subscription<nav_msgs::msg::OccupancyGrid>("/map", map_qos, 
+    map_sub_ = create_subscription<nav_msgs::msg::OccupancyGrid>("/costmap/costmap", map_qos, 
                                                                     std::bind(&AStarPlanner::mapCallback, this, _1));
 
     pose_sub_ = create_subscription<geometry_msgs::msg::PoseStamped>("/goal_pose", 10,
@@ -123,9 +123,9 @@ nav_msgs::msg::Path AStarPlanner::plan(const geometry_msgs::msg::Pose& start, co
 
             // Check if the Node is already visited, if the Node is valid, and if the Node is free or occupied
             if(std::find(visited_nodes.begin(), visited_nodes.end(), new_node) == visited_nodes.end() && 
-                poseOnMap(new_node) && map_->data.at(poseToCell(new_node)) == 0)
+                poseOnMap(new_node) && map_->data.at(poseToCell(new_node)) < 99 && map_->data.at(poseToCell(new_node)) >= 0)
             {
-                new_node.cost = active_node.cost + 1;
+                new_node.cost = active_node.cost + 1 + map_->data.at(poseToCell(new_node));
                 new_node.heurestic = getHeurestic(new_node, goal_node);
                 //new_node.total_cost = new_node.cost + new_node.heurestic;
                 new_node.prev = std::make_shared<GraphNode>(active_node);
