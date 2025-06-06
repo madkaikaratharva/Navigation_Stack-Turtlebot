@@ -1,0 +1,26 @@
+{
+  "configurations": [
+    {
+      "browse": {
+        "databaseFilename": "${default}",
+        "limitSymbolsToIncludedHeaders": false
+      },
+      "includePath": [
+        "/opt/ros/humble/include/**",
+        "/home/atharva/github_projects/Navigation_Stack-Turtlebot/src/bumperbot_controller/include/**",
+        "/home/atharva/github_projects/Navigation_Stack-Turtlebot/src/bumperbot_localization/include/**",
+        "/home/atharva/github_projects/Navigation_Stack-Turtlebot/src/bumperbot_mapping/include/**",
+        "/home/atharva/github_projects/Navigation_Stack-Turtlebot/src/bumperbot_msgs/include/**",
+        "/home/atharva/github_projects/Navigation_Stack-Turtlebot/src/bumperbot_planning/include/**",
+        "/home/atharva/github_projects/Navigation_Stack-Turtlebot/src/bumperbot_utils/include/**",
+        "/usr/include/**"
+      ],
+      "name": "ROS",
+      "intelliSenseMode": "gcc-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "gnu11",
+      "cppStandard": "c++14"
+    }
+  ],
+  "version": 4
+}
