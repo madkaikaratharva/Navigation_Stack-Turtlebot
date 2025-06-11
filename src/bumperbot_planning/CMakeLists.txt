@@ -11,6 +11,11 @@ find_package(rclcpp REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
+find_package(nav2_core REQUIRED)
+find_package(nav2_util REQUIRED)
+find_package(nav2_costmap_2d REQUIRED)
+find_package(pluginlib REQUIRED)
+
 
 # Include directories
 include_directories(include)
@@ -21,6 +26,10 @@ set(dependencies
   nav_msgs
   geometry_msgs
   tf2_ros
+  nav2_core
+  nav2_util
+  nav2_costmap_2d
+  pluginlib
 )
 
 # Add executables
@@ -29,6 +38,29 @@ ament_target_dependencies(dijkstra_planner rclcpp nav_msgs geometry_msgs tf2_ros
 
 add_executable(astar_planner src/astar_planner.cpp)
 ament_target_dependencies(astar_planner rclcpp nav_msgs geometry_msgs tf2_ros)
+
+
+# Export the Plugins
+add_library(dijkstra_planner_plugin SHARED src/dijkstra_planner_plugin.cpp)
+ament_target_dependencies(dijkstra_planner_plugin rclcpp nav_msgs geometry_msgs tf2_ros nav2_core nav2_util nav2_costmap_2d pluginlib)
+
+add_library(astar_planner_plugin SHARED src/astar_planner_plugin.cpp)
+ament_target_dependencies(astar_planner_plugin rclcpp nav_msgs geometry_msgs tf2_ros nav2_core nav2_util nav2_costmap_2d pluginlib)
+
+pluginlib_export_plugin_description_file(nav2_core global_planner_plugins.xml)
+
+install(TARGETS
+  dijkstra_planner_plugin
+  astar_planner_plugin
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
+install(FILES 
+  global_planner_plugins.xml
+  DESTINATION share/${PROJECT_NAME}
+)
 
 # Install the directories and scripts
 install(
