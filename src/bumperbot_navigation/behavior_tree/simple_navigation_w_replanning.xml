@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="3"
+      main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <PipelineSequence>
+      <RateController hz="1">
+        <ComputePathToPose goal="{goal}" planner_id="GridBased" path="{path}"/>
+      </RateController>
+      <FollowPath controller_id="FollowPath" path="{path}"/>
+    </PipelineSequence>
+  </BehaviorTree>
+</root>
